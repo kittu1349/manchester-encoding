@@ -3,6 +3,10 @@ import argparse
 def text_to_binary(text):
     return ''.join(format(ord(char), '08b') for char in text)
 
+def binary_to_text(binary_seq):
+    chars = [binary_seq[i:i+8] for i in range(0, len(binary_seq), 8)]
+    return ''.join(chr(int(char, 2)) for char in chars)
+
 def manchester_encoding(binary_seq):
     return ''.join(['10' if bit == '0' else '01' for bit in binary_seq])
 
@@ -17,7 +21,8 @@ def encode_message(message):
 
 def decode_message(encoded_message):
     binary_seq = manchester_decoding(encoded_message)
-    return binary_seq
+    decoded_message = binary_to_text(binary_seq)
+    return decoded_message
 
 def main():
     parser = argparse.ArgumentParser(description="Encode and decode messages using Manchester encoding.")
